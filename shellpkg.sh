@@ -43,6 +43,7 @@ if [ $1 == "-i" ] || [ $1 == 'install' ];
 
   case $2 in
   	i3WM-gaps) echo 'i3WM-gaps FOUND'; echo ;;
+	test) echo 'downloading packages for testing'; sleep 3; wget -q https://raw.githubusercontent.com/profsucrose/bash-hello-world/master/hello_world.sh; ./hello_world.sh ;;
   	*) echo 'this pachages does not exist in our data base!'; echo;;
   	esac
   exit
