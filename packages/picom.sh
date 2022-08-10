@@ -1,3 +1,29 @@
+
+if [ -f $HOME/.config/develFlag ]; then
+echo
+else
+while true; do
+    read -p "Do you wish install porteus develop package first? [yes/no] " yn
+    case $yn in 
+        [Yy]* ) echo;
+        wget http://ftp.vim.org/ftp/os/Linux/distr/porteus/i586/Porteus-v5.0/kernel/05-devel.xzm;
+        unsquashfs 05-devel.xzm;
+        echo;
+        echo "please isert your pasword for continue with the instalations of the packages";
+        echo;
+        sudo cp -r squashfs-root/* / ;
+        echo;
+        touch $HOME/.config/develFlag
+        rm -f -r 05-devel.xzm squashfs-root/;
+        echo "porteus development packages was successfully installed!";
+        echo; break;;
+        [Nn]* ) break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+fi
+
+
 fail="0"
 echo "creating workspace directory"
 mkdir picomsrc

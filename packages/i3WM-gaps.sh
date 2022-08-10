@@ -6,6 +6,9 @@ echo "============================================================"
 echo "wellcome to the instalation wizard of i3WM-gaps for porteus!"
 echo "============================================================"
 echo
+if [ -f $HOME/.config/develFlag ]; then
+echo
+else
 while true; do
     read -p "Do you wish install porteus develop package first? [yes/no] " yn
     case $yn in
@@ -17,6 +20,7 @@ while true; do
         echo;
         sudo cp -r squashfs-root/* / ;
         echo;
+	touch $HOME/.config/develFlag
         rm -f -r 05-devel.xzm squashfs-root/;
         echo "porteus development packages was successfully installed!";
         echo; break;;
@@ -24,7 +28,7 @@ while true; do
         * ) echo "Please answer yes or no.";;
     esac
 done
-
+fi
 echo
 fail="0"
 echo "creating workspace directory"
