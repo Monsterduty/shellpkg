@@ -91,7 +91,7 @@ if [[ $1 != 'deps' ]];
 
     read -p "do you wish install this packages?? [yes/no] " a
 
-    if [ $a == [Nn]* ];
+    if [[ $a == [Nn]* ]];
         then
         exit
     fi

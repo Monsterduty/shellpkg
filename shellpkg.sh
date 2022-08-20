@@ -197,6 +197,9 @@ if [ $1 == "-i" ] || [ $1 == 'install' ];
 		$workSpace/libxcb-render-util.sh;
 		rm -r -f $workSpace/libxcb-render-util.sh;
 		echo;;
+		
+		gperf)
+			
 	
   	*) 
   		echo 'this packages does not exist in our data base!'; echo;;

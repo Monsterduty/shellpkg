@@ -1,3 +1,4 @@
+gperf
 i3WM-gaps
 libxcb-render-util
 nano
