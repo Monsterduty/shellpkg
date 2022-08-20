@@ -132,23 +132,48 @@ if [ $1 == "-i" ] || [ $1 == 'install' ];
   workSpace=$HOME/.config/shellpkg/tmp
 
   case $2 in
+  
   	i3WM-gaps)
   		echo 'i3WM-gaps FOUND';
 		wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/i3WM-gaps.sh;
 		chmod u+x i3WM-gaps.sh
 		mv i3WM-gaps.sh $workSpace;
 		$workSpace/i3WM-gaps.sh;
+		sudo rm -r -f $workSpace/i3WM-gaps.sh;
 		echo;;
+		
 	test)
 		echo 'downloading packages for testing';
-		sleep 3;
 		wget -q https://raw.githubusercontent.com/profsucrose/bash-hello-world/master/hello_world.sh;
 		chmod u+x hello_world.sh;
 		./hello_world.sh ;;
+		
 	picom)
-		packages/picom.sh ;;
+		wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/picom.sh;
+		chmod u+x picom.sh;
+		mv picom.sh $workSpace;
+		$workSpace/picom.sh;
+		sudo rm -r -f $workspace/picom.sh;
+		echo;;
+		
+	nano)
+		wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/nano.sh;
+		chmod u+x nano.sh
+		mv nano.sh $workSpace;
+		$workSpace/nano.sh;
+		sudo rm -r -f $workSpace/nano.sh;
+		echo;;
+		
+	libxcb-render-util)
+		wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/libxcb-render-util.sh;
+		chmod u+x libxcb-render-util.sh
+		mv libxcb-render-util.sh $workSpace;
+		$workSpace/libxcb-render-util.sh;
+		rm -r -f $workSpace/libxcb-render-util.sh;
+		echo;;
+	
   	*) 
-  		echo 'this pachages does not exist in our data base!'; echo;;
+  		echo 'this packages does not exist in our data base!'; echo;;
   	esac
   exit
 fi
