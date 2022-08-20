@@ -129,9 +129,15 @@ fi
 if [ $1 == "-i" ] || [ $1 == 'install' ];
   then
 
+  workSpace=$HOME/.config/shellpkg/tmp
+
   case $2 in
   	i3WM-gaps)
   		echo 'i3WM-gaps FOUND';
+		wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/i3WM-gaps.sh;
+		chmod u+x i3WM-gaps.sh
+		mv i3WM-gaps.sh $workSpace;
+		$workSpace/i3WM-gaps.sh;
 		echo;;
 	test)
 		echo 'downloading packages for testing';
