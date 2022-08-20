@@ -28,6 +28,8 @@ fi
 
 touch $HOME/.config/shellpkg/tmp/error.txt
 
+workSpace=$HOME/.config/shellpkg/tmp
+
 echo "GNU/gperf"
 wget http://ftp.gnu.org/pub/gnu/gperf/gperf-3.1.tar.gz
 if [ -f gperf-3.1.tar.gz ];
@@ -72,7 +74,11 @@ echo "	libxcb-image could not be cloned!"
 echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx>"
 fi
 echo
-	libxcb-render-util.sh
+	wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/libxcb-render-util.sh
+	chmod u+x libxcb-render-util.sh
+	mv libxcb-render-util.sh $workSpace
+	$workSpace/libxcb-render-util.sh
+	rm -f -r $workSpace/libxcb-render-util.sh
 echo
 echo "libxcb-wm"
 git clone --recursive https://gitlab.freedesktop.org/xorg/lib/libxcb-wm.git
@@ -191,8 +197,6 @@ echo
 echo "STARTING COMPILING PROCCESS.."
 echo
 
-./i3src/libxcb-render-util/autogen.sh
-sudo make install
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 sudo rm -r -f Makefile  config.h config.log  config.status libtool  renderutil/  stamp-h1
 i3src/libxcb-image/autogen.sh
@@ -260,7 +264,7 @@ echo "		I3WM-GAPS WAS INSTALLED SUCCESFULLY!!	  "
 echo "		<================================================>"
 else
 echo "xxxxxxxxxxxxxxxxxxxxxxxx>"
-echo "failed instalations..."
+echo "failed instalation..."
 echo "xxxxxxxxxxxxxxxxxxxxxxxx>"
 echo
 exit
