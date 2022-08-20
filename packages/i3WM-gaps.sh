@@ -6,29 +6,7 @@ echo "============================================================"
 echo "wellcome to the instalation wizard of i3WM-gaps for porteus!"
 echo "============================================================"
 echo
-if [ -f $HOME/.config/develFlag ]; then
-echo
-else
-while true; do
-    read -p "Do you wish install porteus develop package first? [yes/no] " yn
-    case $yn in
-        [Yy]* ) echo;
-        wget http://ftp.vim.org/ftp/os/Linux/distr/porteus/i586/Porteus-v5.0/kernel/05-devel.xzm;
-        unsquashfs 05-devel.xzm;
-        echo;
-        echo "please isert your pasword for continue with the instalations of the packages";
-        echo;
-        sudo cp -r squashfs-root/* / ;
-        echo;
-	touch $HOME/.config/develFlag
-        rm -f -r 05-devel.xzm squashfs-root/;
-        echo "porteus development packages was successfully installed!";
-        echo; break;;
-        [Nn]* ) break;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
-fi
+
 echo
 fail="0"
 echo "creating workspace directory"
@@ -41,6 +19,15 @@ echo "    ║                                   ║"
 echo "    ║                                   ║"
 echo "    ¥                                   ¥"
 echo
+if [ f $HOME/.config/shellpkg/tmp/error.txt ];
+	then
+
+	rm $HOME/.config/shellpkg/tmp/error.txt
+
+fi
+
+touch $HOME/.config/shellpkg/tmp/error.txt
+
 echo "GNU/gperf"
 wget http://ftp.gnu.org/pub/gnu/gperf/gperf-3.1.tar.gz
 if [ -f gperf-3.1.tar.gz ];
@@ -85,19 +72,7 @@ echo "	libxcb-image could not be cloned!"
 echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx>"
 fi
 echo
-echo "render-util"
-git clone --recursive https://gitlab.freedesktop.org/xorg/lib/libxcb-render-util.git
-if [ -d libxcb-render-util ];
-then
-mv libxcb-render-util i3src
-echo "[ok]-libxcb-render-util";
-else
-fail="1"
-echo
-echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx>"
-echo "	libxcb-render-util could not be cloned!"
-echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx>"
-fi
+	libxcb-render-util.sh
 echo
 echo "libxcb-wm"
 git clone --recursive https://gitlab.freedesktop.org/xorg/lib/libxcb-wm.git
@@ -197,8 +172,11 @@ echo "	i3blocks could not be cloned!"
 echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx>"
 fi
 echo
-if [ $fail = "1" ];
-then
+
+aux=$(cat $HOME/.config/shellpkg/tmp/error.txt)
+
+if [ $aux != "" ];
+	then
 echo
 echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx>"
 echo "some dependencies packages could not be downloaded!!!"
@@ -421,6 +399,14 @@ mode "$mode_gaps_left" {
         bindsym Escape mode "default"
 }' >> /tmp/example.txt
 
+touch $HOME/.config/shellpkg/tmp/i3.txt
+echo "[Desktop Entry]
+Name=I3WM-gaps
+Type=Application
+Comment=i3WM-gaps
+TryExec=i3
+Exec=i3" >> $HOME/.config/shellpkg/tmp/i3.txt
+sudo mv -f $HOME/.config/shellpkg/tmp/i3.txt /usr/share/xsessions/i3.desktop
 
 echo
 echo "----------------------------------------------------------------------"
@@ -432,11 +418,15 @@ echo "go to last line of the i3WM config file to find the bar configuration and 
 echo "i3status with i3blocks, then copy all the text of the example.txt"
 echo " and paste in the end of your i3WM config file."
 echo
-echo "optionaly, in the .xinitrc you can change you window manager by default"
-echo "whit i3 an then when you execute the command startx i3 will appear instead"
+echo "optionaly, in the .xinitrc you can change your window manager by default"
+echo "with i3 an then when you execute the command startx i3 will appear instead"
+echo '----------------------------------------------------------------------'
 
 sleep 10
-featherpad $HOME/.config/i3/config /tmp/example.txt $HOME/.xinitrc
+
+textEditor=$(cat $HOME/.config/shellpkg/editor.txt)
+
+$textEditor $HOME/.config/i3/config /tmp/example.txt $HOME/.xinitrc
 
 echo "      | please type: source $HOME/.bashrc |"
 
