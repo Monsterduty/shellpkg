@@ -29,7 +29,8 @@ nc='\033[0m'
 		fi
 	}
 
-if [ -f $HOME/.config/shellpkg/develFlag ]; then
+if [ -f $HOME/.config/shellpkg/develFlag ];
+	then
 	echo	
 else
 #mkdir $HOME/.config/shellpkg/tmp
@@ -42,7 +43,7 @@ while true; do
 		echo;
 		if [ $systemArch == "x86_64" ]; then
 
-	        	wget -nv http://ftp.vim.org/ftp/os/Linux/distr/porteus/x86_64/Porteus-v5.0/kernel/05-devel.xzm;
+	        	wget http://ftp.vim.org/ftp/os/Linux/distr/porteus/x86_64/Porteus-v5.0/kernel/05-devel.xzm;
         		unsquashfs 05-devel.xzm;
         		echo;
         		echo "please isert your pasword for continue with the instalations of the packages";
@@ -58,7 +59,7 @@ while true; do
 
 		if [ $systemArch == "i686" ] || [ $systemArch == "i586" ]; then
 
-	        	wget -nv http://ftp.vim.org/ftp/os/Linux/distr/porteus/i586/Porteus-v5.0/kernel/05-devel.xzm;
+	        	wget http://ftp.vim.org/ftp/os/Linux/distr/porteus/i586/Porteus-v5.0/kernel/05-devel.xzm;
         		unsquashfs 05-devel.xzm;
         		echo;
         		echo "please isert your pasword for continue with the instalations of the packages";
@@ -82,24 +83,26 @@ done
 
 fi
 
-if [ -f $HOME/.config/shellpkg/editor.txt ]; then
+if [ -f $HOME/.config/shellpkg/editor.txt ];
+	then
 	echo;
 else
-echo
-echo "which text editor can use shellpkg??"
-echo
-echo "for example featherpad or nano"
-echo
+	echo
+	echo "which text editor can use shellpkg??"
+	echo
+	echo "for example featherpad or nano"
+	echo
 
 	editor
 fi
 
 
-    if [ $# -eq 0 ]; then
-    exit
+    if [ $# -eq 0 ]; 
+    	then
+    	exit
     fi
 
-    if [ $1 != '-h' ] && [ $1 != 'help' ] && [ $1 != '-i' ] && [ $1 != 'install' ] && [ $1 != '-s' ] && [ $1 != 'search' ]; then
+    if [ $1 != '-h' ] && [ $1 != 'help' ] && [ $1 != '-i' ] && [ $1 != 'install' ] && [ $1 != '-s' ] && [ $1 != 'search' ] && [ $1 != "-r" ] && [ $1 != "remove" ]; then
     echo "the flag [ "$1" ] does not exist"
     echo
     exit
@@ -110,8 +113,9 @@ help(){
 echo "FLAGS:"
 echo
 echo '  -s search  => search and show available packages.'
-echo '  -i install => install the folowing packages.'
-echo '  -h help    => show this help'
+echo '  -i install => install the following package.'
+echo '	-r remove  => uninstall the following package.'
+echo '  -h help    => show this help.'
 echo
 echo 'EXAMPLE:'
 echo
@@ -154,7 +158,7 @@ if [ $1 == "-s" ] || [ $1 == "search" ];
 
 fi
 
-if [ $1 == "-i" ] || [ $1 == 'install' ];
+if [ $1 == "-i" ] || [ $1 == 'install' ] || [ $1 == "-r" ] ||  [ $1 == "remove" ];
   then
 
   case $2 in
@@ -194,12 +198,27 @@ if [ $1 == "-i" ] || [ $1 == 'install' ];
 		wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/libxcb-render-util.sh;
 		chmod u+x libxcb-render-util.sh
 		mv libxcb-render-util.sh $workSpace;
-		$workSpace/libxcb-render-util.sh;
+		if [ $1 == "remove" ] || [ $1 == '-r' ];
+			then
+			$workSpace/libxcb-render-util.sh uninstall;
+		else
+			$workSpace/libxcb-render-util.sh;
+		fi;
 		rm -r -f $workSpace/libxcb-render-util.sh;
 		echo;;
 		
 		gperf)
-			
+			wget -nv https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/gperf.sh;
+			chmod u+x gperf.sh;
+			mv gperf.sh $workSpace;
+			if [ $1 == "remove" ] || [ $1 == '-r' ];
+				then
+				$workSpace/gperf.sh uninstall;
+			else
+				$workSpace/gperf.sh;
+			fi;
+			rm -r -f $workSpace/gperf.sh;
+			echo;;
 	
   	*) 
   		echo 'this packages does not exist in our data base!'; echo;;

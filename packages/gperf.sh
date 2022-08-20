@@ -105,8 +105,6 @@ checkFiles(){
 		then
 		
 		echo
-		echo "this package is not installed"
-		echo
 		insQuestion
 		exit
 		
