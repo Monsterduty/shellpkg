@@ -42,7 +42,7 @@ while true; do
 		echo;
 		if [ $systemArch == "x86_64" ]; then
 
-	        	wget http://ftp.vim.org/ftp/os/Linux/distr/porteus/x86_64/Porteus-v5.0/kernel/05-devel.xzm;
+	        	wget -nv http://ftp.vim.org/ftp/os/Linux/distr/porteus/x86_64/Porteus-v5.0/kernel/05-devel.xzm;
         		unsquashfs 05-devel.xzm;
         		echo;
         		echo "please isert your pasword for continue with the instalations of the packages";
@@ -58,7 +58,7 @@ while true; do
 
 		if [ $systemArch == "i686" ] || [ $systemArch == "i586" ]; then
 
-	        	wget http://ftp.vim.org/ftp/os/Linux/distr/porteus/i586/Porteus-v5.0/kernel/05-devel.xzm;
+	        	wget -nv http://ftp.vim.org/ftp/os/Linux/distr/porteus/i586/Porteus-v5.0/kernel/05-devel.xzm;
         		unsquashfs 05-devel.xzm;
         		echo;
         		echo "please isert your pasword for continue with the instalations of the packages";
@@ -99,7 +99,7 @@ fi
     exit
     fi
 
-    if [ $1 != '-h' ] && [ $1 != 'help' ] && [ $1 != '-i' ] && [ $1 != 'install' ]; then
+    if [ $1 != '-h' ] && [ $1 != 'help' ] && [ $1 != '-i' ] && [ $1 != 'install' ] && [ $1 != '-s' ] && [ $1 != 'search' ]; then
     echo "the flag [ "$1" ] does not exist"
     echo
     exit
@@ -120,16 +120,42 @@ echo
 
 }
 
+ workSpace=$HOME/.config/shellpkg/tmp
+
 if [ $1 == "-h" ] || [ $1 == 'help' ];
   then
   help
     exit
 fi
 
+if [ $1 == "-s" ] || [ $1 == "search" ];
+	then
+
+	if [[ $2 != '' ]];
+		then
+	
+		wget -q https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packagesList.txt
+		mv packagesList.txt $workSpace
+		echo
+		echo "packages availables:"
+		echo
+		cat $workSpace/packagesList.txt | grep $2
+		rm $workSpace/packagesList.txt
+		echo
+	
+	else
+	
+		echo "there's no package to search!"
+		echo
+	
+	fi
+
+	exit
+
+fi
+
 if [ $1 == "-i" ] || [ $1 == 'install' ];
   then
-
-  workSpace=$HOME/.config/shellpkg/tmp
 
   case $2 in
   
