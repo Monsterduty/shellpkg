@@ -77,7 +77,7 @@ echo
 	wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/libxcb-render-util.sh
 	chmod u+x libxcb-render-util.sh
 	mv libxcb-render-util.sh $workSpace
-	$workSpace/libxcb-render-util.sh
+	$workSpace/libxcb-render-util.sh deps
 	rm -f -r $workSpace/libxcb-render-util.sh
 echo
 echo "libxcb-wm"
