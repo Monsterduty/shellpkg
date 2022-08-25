@@ -2,6 +2,7 @@ clear
 systemArch=$(arch)
 lgreen='\033[;32m'
 nc='\033[0m'
+binaries=( "/usr/bin/" "/usr/sbin" "/usr/local/bin" )
 
     echo -e "${lgreen}"
     echo "=====================>"
@@ -17,6 +18,29 @@ nc='\033[0m'
 		read -p 'shellpkg will use: ' file
 		
 	save=$file
+	executable="false"
+
+		for a in "${binaries[@]}";
+			do
+			
+			if [ -f $a$file ];
+				then
+				
+				executable="true"
+				
+			fi
+			
+		done
+		
+		if [[ $executable == "false" ]];
+			then
+			
+			echo "this editor does not exist in your sistem!"
+			echo "please chose another"
+			echo
+			editor
+			
+		fi
 		
 		read -p "are you sure to use $file ?? [yes/no]: " confirm
 		
@@ -45,6 +69,7 @@ while true; do
 
 	        	wget http://ftp.vim.org/ftp/os/Linux/distr/porteus/x86_64/Porteus-v5.0/kernel/05-devel.xzm;
         		unsquashfs 05-devel.xzm;
+        		rm 05-devel.xzm
         		echo;
         		echo "please isert your pasword for continue with the instalations of the packages";
         		echo;
@@ -52,7 +77,7 @@ while true; do
         		echo;
         		mkdir $HOME/.config/shellpkg
 				touch $HOME/.config/shellpkg/develFlag
-        		rm -f -r 05-devel.xzm squashfs-root/;
+        		rm -f -r squashfs-root/;
         		echo "porteus development packages was successfully installed!";
 			echo;
 		fi
@@ -61,6 +86,7 @@ while true; do
 
 	        	wget http://ftp.vim.org/ftp/os/Linux/distr/porteus/i586/Porteus-v5.0/kernel/05-devel.xzm;
         		unsquashfs 05-devel.xzm;
+        		rm 05-devel.xzm
         		echo;
         		echo "please isert your pasword for continue with the instalations of the packages";
         		echo;
@@ -68,7 +94,7 @@ while true; do
         		echo;
         		mkdir $HOME/.config/shellpkg
 				touch $HOME/.config/shellpkg/develFlag
-        		rm -f -r 05-devel.xzm squashfs-root/;
+        		rm -f -r squashfs-root/;
         		echo "porteus development packages was successfully installed!";
 			echo;
 		fi
@@ -219,9 +245,23 @@ if [ $1 == "-i" ] || [ $1 == 'install' ] || [ $1 == "-r" ] ||  [ $1 == "remove" 
 			fi;
 			rm -r -f $workSpace/gperf.sh;
 			echo;;
+
+		feh)
+			wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/feh.sh;
+			chmod u+x feh.sh;
+			mv feh.sh $workSpace;
+			if [ $1 == "remove" ] || [ $1 == '-r' ];
+				then
+
+				$workSpace/feh.sh uninstall;
+			else
+				$workSpace/feh.sh;
+			fi;
+			rm -r -f $workSpace/feh.sh;
+			echo;;
 	
-  	*) 
-  		echo 'this packages does not exist in our data base!'; echo;;
+  		*) 
+  			echo 'this packages does not exist in our data base!'; echo;;
   	esac
   exit
 fi

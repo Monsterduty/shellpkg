@@ -72,7 +72,8 @@ echo "uthash could not be cloned!"
 fi
 echo
 echo "picom"
-git clone --recursive https://github.com/yshui/picom
+#git clone --recursive https://github.com/yshui/picom
+git clone --recursive https://github.com/sdhand/picom
 if [ -d picom ];
 then
 mv picom picomsrc
