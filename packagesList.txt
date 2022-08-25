@@ -1,6 +1,14 @@
+axel
+feh
 gperf
 i3WM-gaps
+imlib2
+libxcb-image
 libxcb-render-util
 nano
 picom
+SDL2
+SDL_image
+SDL_mixer
+SDL_ttf
 test
