@@ -1,10 +1,15 @@
 axel
 feh
 gperf
+i3blocks
 i3WM-gaps
 imlib2
+libev
+libxcb-cursor
 libxcb-image
+libxcb-keysyms
 libxcb-render-util
+libxcb-wm
 nano
 picom
 SDL2
@@ -12,3 +17,5 @@ SDL_image
 SDL_mixer
 SDL_ttf
 test
+xcb-util-xrm
+yajl
