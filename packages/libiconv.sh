@@ -108,6 +108,8 @@ inspkg(){
 	./configure
 	make -j $CORES
 	sudo make install
+	cd ..
+	rm -r -f libiconv-1.17
 	exit
  
 }
