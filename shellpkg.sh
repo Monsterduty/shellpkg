@@ -1,4 +1,5 @@
 clear
+workSpace=$HOME/.config/shellpkg/tmp
 systemArch=$(arch)
 lgreen='\033[;32m'
 nc='\033[0m'
@@ -11,142 +12,100 @@ binaries=( "/usr/bin/" "/usr/sbin" "/usr/local/bin" )
     echo " usage: shellpkg <flags> <package>"
     echo "==========================================>"
     echo -e "${nc}"
-    
-    
-    
-	editor(){
-		read -p 'shellpkg will use: ' file
-		
-	save=$file
-	executable="false"
 
-		for a in "${binaries[@]}";
-			do
-			
-			if [ -f $a$file ];
-				then
-				
-				executable="true"
-				
-			fi
-			
+editor(){
+
+	executable="false"
+	read -p 'shellpkg will use: ' file
+
+	for a in "${binaries[@]}";
+		do
+
+		if [ -f $a$file ]; then executable="true"; fi;
+
 		done
-		
-		if [[ $executable == "false" ]];
-			then
-			
-			echo "this editor does not exist in your sistem!"
+
+	if [[ $executable == "false" ]];
+		then
+
+			echo "this editor does not exist in your system!"
 			echo "please chose another"
 			echo
 			editor
-			
-		fi
-		
-		read -p "are you sure to use $file ?? [yes/no]: " confirm
-		
-		if [[ $confirm == [Yy]*  ]];
+
+	fi
+
+	read -p "are you sure to use $file ?? [yes/no]: " confirm
+
+	if [[ $confirm == [Yy]*  ]];
 		then
 			touch $HOME/.config/shellpkg/editor.txt
 			echo $file >> $HOME/.config/shellpkg/editor.txt
-		else
-		editor
-		fi
-	}
-
-if [ -f $HOME/.config/shellpkg/develFlag ];
-	then
-	echo	
-else
-#mkdir $HOME/.config/shellpkg/tmp
-	echo "starting initial config.."
-	echo
-while true; do
-    read -p "Do you wish install porteus develop package first? [yes/no] " yn
-    case $yn in
-        [Yy]* )
-		echo;
-		if [ $systemArch == "x86_64" ]; then
-
-	        	wget http://ftp.vim.org/ftp/os/Linux/distr/porteus/x86_64/Porteus-v5.0/kernel/05-devel.xzm;
-        		unsquashfs 05-devel.xzm;
-        		rm 05-devel.xzm
-        		echo;
-        		echo "please isert your pasword for continue with the instalations of the packages";
-        		echo;
-        		sudo cp -r squashfs-root/* / ;
-        		echo;
-        		mkdir $HOME/.config/shellpkg
-				touch $HOME/.config/shellpkg/develFlag
-        		rm -f -r squashfs-root/;
-        		echo "porteus development packages was successfully installed!";
-			echo;
-		fi
-
-		if [ $systemArch == "i686" ] || [ $systemArch == "i586" ]; then
-
-	        	wget http://ftp.vim.org/ftp/os/Linux/distr/porteus/i586/Porteus-v5.0/kernel/05-devel.xzm;
-        		unsquashfs 05-devel.xzm;
-        		rm 05-devel.xzm
-        		echo;
-        		echo "please isert your pasword for continue with the instalations of the packages";
-        		echo;
-        		sudo cp -r squashfs-root/* / ;
-        		echo;
-        		mkdir $HOME/.config/shellpkg
-				touch $HOME/.config/shellpkg/develFlag
-        		rm -f -r squashfs-root/;
-        		echo "porteus development packages was successfully installed!";
-			echo;
-		fi
-		mkdir $HOME/.config/shellpkg/tmp
-		break;;
-        [Nn]* ) 
-		break;;
-        * )
-		echo "Please answer yes or no.";;
-    esac
-done
-
-fi
-
-if [ -f $HOME/.config/shellpkg/editor.txt ];
-	then
-	echo;
-else
-	echo
-	echo "which text editor can use shellpkg??"
-	echo
-	echo "for example featherpad or nano"
-	echo
-
+			return
+	fi
 	editor
-fi
+}
 
 
-    if [ $# -eq 0 ]; 
-    	then
-    	exit
-    fi
+insDevTools(){
 
-    if [ $1 != '-h' ] && [ $1 != 'help' ] && [ $1 != '-i' ] && [ $1 != 'install' ] && [ $1 != '-s' ] && [ $1 != 'search' ] && [ $1 != "-r" ] && [ $1 != "remove" ]; then
-    echo "the flag [ "$1" ] does not exist"
-    echo
-    exit
-    fi
+	read -p "do you wish install the develoment package?? [yes/no]: " a
+
+	if [[ $a != [Yy]* ]]; then exit; fi;
+
+	cd $workSpace
+	files=( "https://download944.mediafire.com/7uwoxcf4uwog/my79kkhpy2m8sl5/devel-x86_64.tar.xz" "https://download1501.mediafire.com/t85ertacfaug/0sbsgu0a3kfowjy/devel-i686.tar.xz" )
+
+	for a in "${files[@]}";
+		do
+			if [[ $(echo $a | grep $systemArch) != '' ]];
+				then
+
+				wget $a
+
+			fi
+		done
+
+	if [ ! -f devel-$systemArch.tar.xz ]; then echo "download has been failed!"; return; fi;
+	mkdir devel
+	tar -xvf devel-$systemArch.tar.xz -C devel
+	rm devel-$systemArch.tar.xz
+	sudo cp -r devel/* /
+	rm -r -f devel
+	touch $HOME/.config/shellpkg/develFlag
+	echo "devel pkg installed succesfully!"
+	echo
+
+}
 
 help(){
 
-echo "FLAGS:"
-echo
-echo '  -s search  => search and show available packages.'
-echo '  -i install => install the following package.'
-echo '	-r remove  => uninstall the following package.'
-echo '  -h help    => show this help.'
-echo
-echo 'EXAMPLE:'
-echo
-echo '	shellpkg install nano'
-echo
+echo "FLAGS
+
+  -s search  => search the following packages
+  -r remove  => remove the following packages
+  -i install => install the following packages
+  -h help    => show this help
+
+EXAMPLE:
+
+  shellpkg.sh install nano axel
+"
+
+
+}
+
+search(){
+
+        if [[ $1 != '' ]];
+                then
+
+        	        wget -q https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packagesList.txt
+                	mv packagesList.txt $workSpace
+                	cat $workSpace/packagesList.txt | grep $1
+                	rm $workSpace/packagesList.txt
+
+        fi
 
 }
 
@@ -155,51 +114,72 @@ inspkg(){
 	prefix="https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/"
 	pkg=$2.sh
         wget -q $prefix$2.sh
-	if [ ! -f $pkg ]; then echo "this packages does not exist in our data base!"; exit;  fi;
+	if [ ! -f $pkg ]; then echo "this packages [ $pkg ]  does not exist in our data base!"; exit;  fi;
 	echo $pkg "FOUND"
         chmod u+x $pkg
         mv $pkg $workSpace
+	cd $workSpace
         if [ $1 == "remove" ] || [ $1 == '-r' ]
                 then
-                $workSpace/$pkg uninstall
+                ./$pkg uninstall
         else
-                $workSpace/$pkg
+                ./$pkg
         fi
-
+	cd $HOME
         sudo rm -r -f $workSpace/$pkg
         echo
 
 }
 
- workSpace=$HOME/.config/shellpkg/tmp
+checkFlags(){
 
-if [ $1 == "-h" ] || [ $1 == 'help' ];
-  then
-  help
-    exit
+	aux="false"
+
+	prefix=( "-h" "help" "-i" "install" "-r" "remove" "-s" "search")
+
+	for a in "${prefix[@]}";
+		do
+
+			if [[ $1 == $a ]]; then return; fi;
+
+		done
+
+	echo "the flag [ $1 ] don't exist!"
+	exit
+
+}
+
+if [ ! -d $HOME/.config/shellpkg ];
+	then
+
+	mkdir $HOME/.config/shellpkg
+	mkdir $HOME/.config/shellpkg/tmp
+
 fi
+
+if [ ! -f $HOME/.config/shellpkg/develFlag ]; then insDevTools; fi
+
+if [ ! -f $HOME/.config/shellpkg/editor.txt ]; then editor; fi
+
+if [ $# -eq 0 ]; then exit; fi
+
+checkFlags $1
+
+if [ $1 == "-h" ] || [ $1 == 'help' ]; then help; exit; fi
+
+if [[ $2 == '' ]]; then echo "nothing to do"; exit; fi
 
 if [ $1 == "-s" ] || [ $1 == "search" ];
 	then
 
-	if [[ $2 != '' ]];
-		then
-	
-		wget -q https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packagesList.txt
-		mv packagesList.txt $workSpace
-		echo
-		echo "packages availables:"
-		echo
-		cat $workSpace/packagesList.txt | grep $2
-		rm $workSpace/packagesList.txt
-		echo
-	
-	else
-	
-		echo "there's no package to search!"
-		echo
-	
-	fi
+	echo "packages available: "
+	echo
+		for a in "$@";
+			do
+
+				if [ $a != $1 ]; then search $a; fi
+
+			done
 
 	exit
 
@@ -208,7 +188,12 @@ fi
 if [ $1 == "-i" ] || [ $1 == 'install' ] || [ $1 == "-r" ] ||  [ $1 == "remove" ];
   then
 
-	inspkg $1 $2
+	for a in "$@";
+		do
+
+			if [ $a != $1 ]; then inspkg $1 $a; fi
+
+		done
 
   exit
 fi
