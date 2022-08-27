@@ -155,7 +155,7 @@ inspkg(){
 	prefix="https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/"
 	pkg=$2.sh
         wget -q $prefix$2.sh
-	if [ ! -f $pkg ]; then echo "this packages does not exist"; exit;  fi;
+	if [ ! -f $pkg ]; then echo "this packages does not exist in our data base!"; exit;  fi;
 	echo $pkg "FOUND"
         chmod u+x $pkg
         mv $pkg $workSpace
