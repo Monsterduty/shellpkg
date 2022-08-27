@@ -4,7 +4,10 @@ gperf
 i3blocks
 i3WM-gaps
 imlib2
+libconfig
 libev
+libevdev
+libiconv
 libxcb-cursor
 libxcb-image
 libxcb-keysyms
@@ -15,7 +18,8 @@ picom
 SDL2
 SDL_image
 SDL_mixer
+SDL_net
 SDL_ttf
-test
+uthash
 xcb-util-xrm
 yajl

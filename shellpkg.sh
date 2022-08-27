@@ -145,8 +145,29 @@ echo '  -h help    => show this help.'
 echo
 echo 'EXAMPLE:'
 echo
-echo '	shellpkg install test'
+echo '	shellpkg install nano'
 echo
+
+}
+
+inspkg(){
+
+	prefix="https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/"
+	pkg=$2.sh
+        wget -q $prefix$2.sh
+	if [ ! -f $pkg ]; then echo "this packages does not exist"; exit;  fi;
+	echo $pkg "FOUND"
+        chmod u+x $pkg
+        mv $pkg $workSpace
+        if [ $1 == "remove" ] || [ $1 == '-r' ]
+                then
+                $workSpace/$pkg uninstall
+        else
+                $workSpace/$pkg
+        fi
+
+        sudo rm -r -f $workSpace/$pkg
+        echo
 
 }
 
@@ -187,82 +208,8 @@ fi
 if [ $1 == "-i" ] || [ $1 == 'install' ] || [ $1 == "-r" ] ||  [ $1 == "remove" ];
   then
 
-  case $2 in
-  
-  	i3WM-gaps)
-  		echo 'i3WM-gaps FOUND';
-		wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/i3WM-gaps.sh;
-		chmod u+x i3WM-gaps.sh
-		mv i3WM-gaps.sh $workSpace;
-		$workSpace/i3WM-gaps.sh;
-		sudo rm -r -f $workSpace/i3WM-gaps.sh;
-		echo;;
-		
-	test)
-		echo 'downloading packages for testing';
-		wget -q https://raw.githubusercontent.com/profsucrose/bash-hello-world/master/hello_world.sh;
-		chmod u+x hello_world.sh;
-		./hello_world.sh ;;
-		
-	picom)
-		wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/picom.sh;
-		chmod u+x picom.sh;
-		mv picom.sh $workSpace;
-		$workSpace/picom.sh;
-		sudo rm -r -f $workspace/picom.sh;
-		echo;;
-		
-	nano)
-		wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/nano.sh;
-		chmod u+x nano.sh
-		mv nano.sh $workSpace;
-		$workSpace/nano.sh;
-		sudo rm -r -f $workSpace/nano.sh;
-		echo;;
-		
-	libxcb-render-util)
-		wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/libxcb-render-util.sh;
-		chmod u+x libxcb-render-util.sh
-		mv libxcb-render-util.sh $workSpace;
-		if [ $1 == "remove" ] || [ $1 == '-r' ];
-			then
-			$workSpace/libxcb-render-util.sh uninstall;
-		else
-			$workSpace/libxcb-render-util.sh;
-		fi;
-		rm -r -f $workSpace/libxcb-render-util.sh;
-		echo;;
-		
-		gperf)
-			wget -nv https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/gperf.sh;
-			chmod u+x gperf.sh;
-			mv gperf.sh $workSpace;
-			if [ $1 == "remove" ] || [ $1 == '-r' ];
-				then
-				$workSpace/gperf.sh uninstall;
-			else
-				$workSpace/gperf.sh;
-			fi;
-			rm -r -f $workSpace/gperf.sh;
-			echo;;
+	inspkg $1 $2
 
-		feh)
-			wget https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/feh.sh;
-			chmod u+x feh.sh;
-			mv feh.sh $workSpace;
-			if [ $1 == "remove" ] || [ $1 == '-r' ];
-				then
-
-				$workSpace/feh.sh uninstall;
-			else
-				$workSpace/feh.sh;
-			fi;
-			rm -r -f $workSpace/feh.sh;
-			echo;;
-	
-  		*) 
-  			echo 'this packages does not exist in our data base!'; echo;;
-  	esac
   exit
 fi
 

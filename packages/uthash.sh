@@ -3,9 +3,9 @@ CORES=$(cat /proc/cpuinfo | grep processor | wc -l)
 workSpace=$HOME/.config/shellpkg/tmp
 flag=$1
 
-files=( "xcb_renderutil.h" "xcb-renderutil.pc" "libxcb-render-util.a" "libxcb-render-util.la" "libxcb-render-util.so.0.0.0" )
+files=( "utstring.h" "utstack.h" "utringbuffer.h" "utlist.h" "uthash.h" "utarray.h" )
 
-path=( "/usr/local/include/" "/usr/local/include/xcb/" "/usr/local/lib/" "/usr/local/lib/pkgconfig/" )
+path=( "/usr/local/include/" )
 
 checkFiles(){
 
@@ -101,13 +101,9 @@ insdeps(){
 inspkg(){
 
 	cd $workSpace
-	git clone --recursive https://gitlab.freedesktop.org/xorg/lib/libxcb-render-util.git
-	cd libxcb-render-util
-	./autogen.sh
-	make -j $CORES
-	sudo make install
-	cd ..
-	rm -r -f libxcb-render-util
+	git clone --recursive https://github.com/troydhanson/uthash
+	sudo cp uthash/src/* /usr/local/include
+	rm -r -f uthash
 	exit
 
 }

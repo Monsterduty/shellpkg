@@ -3,9 +3,9 @@ CORES=$(cat /proc/cpuinfo | grep processor | wc -l)
 workSpace=$HOME/.config/shellpkg/tmp
 flag=$1
 
-files=( "xcb_renderutil.h" "xcb-renderutil.pc" "libxcb-render-util.a" "libxcb-render-util.la" "libxcb-render-util.so.0.0.0" )
+files=( "libconfig.h++" "libconfig.h" "libconfig++.pc" "libconfig.pc" "libconfig++Config.cmake" "libconfigConfig.cmake" "libconfig++.a" "libconfig.a" "libconfig++.la" "libconfig++.so.11.1.0" "libconfig.la" "libconfig.so.11.1.0" "dir" "libconfig.info" )
 
-path=( "/usr/local/include/" "/usr/local/include/xcb/" "/usr/local/lib/" "/usr/local/lib/pkgconfig/" )
+path=( "/usr/local/include/" "/usr/local/lib/" "/usr/local/lib/pkgconfig/" "/usr/local/lib/cmake/" "/usr/local/lib/cmake/libconfig++/" "/usr/local/lib/cmake/libconfig/" "/usr/local/share/" "/usr/local/share/info/" )
 
 checkFiles(){
 
@@ -101,13 +101,14 @@ insdeps(){
 inspkg(){
 
 	cd $workSpace
-	git clone --recursive https://gitlab.freedesktop.org/xorg/lib/libxcb-render-util.git
-	cd libxcb-render-util
-	./autogen.sh
+	git clone --recursive https://github.com/hyperrealm/libconfig
+	cd libconfig
+	autoreconf
+	./configure
 	make -j $CORES
 	sudo make install
 	cd ..
-	rm -r -f libxcb-render-util
+	rm -r -f libconfig
 	exit
 
 }

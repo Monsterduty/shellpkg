@@ -3,9 +3,9 @@ CORES=$(cat /proc/cpuinfo | grep processor | wc -l)
 workSpace=$HOME/.config/shellpkg/tmp
 flag=$1
 
-files=( "xcb_renderutil.h" "xcb-renderutil.pc" "libxcb-render-util.a" "libxcb-render-util.la" "libxcb-render-util.so.0.0.0" )
+files=( "libevdev-tweak-device" "mouse-dpi-tool" "touchpad-edge-detector" "libevdev-uinput.h" "libevdev.h" "libevdev.pc" "libevdev.a" "libevdev.la" "libevdev.so.2.3.0" "touchpad-edge-detector.1" "mouse-dpi-tool.1" "libevdev-tweak-device.1" "libevdev.3" )
 
-path=( "/usr/local/include/" "/usr/local/include/xcb/" "/usr/local/lib/" "/usr/local/lib/pkgconfig/" )
+path=( "/usr/local/bin/" "/usr/local/include/" "/usr/local/include/libevdev-1.0/" "/usr/local/include/libevdev-1.0/libevdev/" "/usr/local/lib/" "/usr/local/lib/pkgconfig/" "/usr/local/share/" "/usr/local/share/man/" "/usr/local/share/man/man1/" "/usr/local/share/man/man3/" )
 
 checkFiles(){
 
@@ -101,13 +101,14 @@ insdeps(){
 inspkg(){
 
 	cd $workSpace
-	git clone --recursive https://gitlab.freedesktop.org/xorg/lib/libxcb-render-util.git
-	cd libxcb-render-util
+	git clone https://github.com/freedesktop/libevdev
+	cd libevdev
 	./autogen.sh
+	./configure
 	make -j $CORES
 	sudo make install
 	cd ..
-	rm -r -f libxcb-render-util
+	rm -r -f libevdev
 	exit
 
 }
