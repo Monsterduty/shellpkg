@@ -134,6 +134,8 @@ inspkg(){
 	sed -i 's\vsync = true\vsync = false\' $HOME/.config/picom/picom.conf
 	cd ..
 	rm -r -f picom
+	echo export LD_LIBRARY_PATH=/usr/local/lib >> $HOME/.bashrc
+	echo export LD_LIBRARY_PATH=/usr/local/lib >> $HOME/.zshrc
 	exit
 
 }
