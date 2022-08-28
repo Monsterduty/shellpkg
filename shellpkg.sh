@@ -8,7 +8,7 @@ binaries=( "/usr/bin/" "/usr/sbin" "/usr/local/bin" )
     echo -e "${lgreen}"
     echo "=====================>"
     echo " shellpkg"
-    echo " version: Beta 0.1"
+    echo " version: Beta 0.2"
     echo " usage: shellpkg <flags> <package>"
     echo "==========================================>"
     echo -e "${nc}"
@@ -67,11 +67,10 @@ insDevTools(){
 		done
 
 	if [ ! -f devel-$systemArch.tar.xz ]; then echo "download has been failed!"; return; fi;
-	mkdir devel
-	tar -xvf devel-$systemArch.tar.xz -C devel
+	tar -xvf devel-$systemArch.tar.xz
 	rm devel-$systemArch.tar.xz
-	sudo cp -r devel/* /
-	rm -r -f devel
+	sudo cp -r devel-$systemArch/* /
+	rm -r -f devel-$systemArch
 	touch $HOME/.config/shellpkg/develFlag
 	echo "devel pkg installed succesfully!"
 	echo
@@ -113,6 +112,7 @@ inspkg(){
 
 	prefix="https://raw.githubusercontent.com/Monsterduty/shellpkg/main/packages/"
 	pkg=$2.sh
+	silent=$3
         wget -q $prefix$2.sh
 	if [ ! -f $pkg ]; then echo "this packages [ $pkg ]  does not exist in our data base!"; exit;  fi;
 	echo $pkg "FOUND"
@@ -123,7 +123,7 @@ inspkg(){
                 then
                 ./$pkg uninstall
         else
-                ./$pkg
+                ./$pkg $silent
         fi
 	cd $HOME
         sudo rm -r -f $workSpace/$pkg
@@ -187,11 +187,20 @@ fi
 
 if [ $1 == "-i" ] || [ $1 == 'install' ] || [ $1 == "-r" ] ||  [ $1 == "remove" ];
   then
+  
+  	silent=""
+  
+  	for a in "$@";
+  		do
+  		
+  			if [ $a == "-y" ]; then silent="deps"; fi
+  		
+  		done
 
 	for a in "$@";
 		do
 
-			if [ $a != $1 ]; then inspkg $1 $a; fi
+			if [ $a != $1 ] && [[ $a != "-y" ]]; then inspkg $1 $a $silent; fi
 
 		done
 
