@@ -54,7 +54,7 @@ insDevTools(){
 	if [[ $a != [Yy]* ]]; then exit; fi;
 
 	cd $workSpace
-	files=( "https://download944.mediafire.com/7uwoxcf4uwog/my79kkhpy2m8sl5/devel-x86_64.tar.xz" "https://download1501.mediafire.com/t85ertacfaug/0sbsgu0a3kfowjy/devel-i686.tar.xz" )
+	files=( "https://download944.mediafire.com/7uwoxcf4uwog/my79kkhpy2m8sl5/devel-x86_64.tar.xz" "https://download1501.mediafire.com/jjkz6ds6nvpg/bsaoeuheqv23bwr/devel-i686.tar.xz" )
 
 	for a in "${files[@]}";
 		do
