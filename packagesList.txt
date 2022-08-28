@@ -13,6 +13,7 @@ libxcb-image
 libxcb-keysyms
 libxcb-render-util
 libxcb-wm
+mednafen
 nano
 picom
 SDL2
